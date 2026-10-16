@@ -7,11 +7,12 @@ locally or on a trusted private network. This version focuses on
 learning the basic application flow and getting practical experience
 with SQLite.
 
-A user should be able to: 1. Log in with a username and password. 2.
-Create a room, list rooms, join a room, and leave a room. 3. Send and
-receive text messages in a room. 4. Speak through their microphone and
-hear other users in the same room. 5. Use the application through a
-simple terminal interface.
+A user should be able to: 
+1. Log in with a username and password. 
+2. Create a room, list rooms, join a room, and leave a room. 
+3. Send and receive text messages in a room. 
+4. Speak through their microphone and hear other users in the same room. 
+5. Use the application through asimple terminal interface.
 
 This is a learning prototype, not a production-ready service.
 
@@ -364,20 +365,7 @@ Restart the server and confirm accounts and rooms remain in SQLite.
 -   [ ] Disconnecting a client does not crash the server.
 -   [ ] The README explains how to build, run, and test the app.
 
-## 11. Keep the learning scope controlled
 
--   Implement SQLite before building the full network protocol, so
-    database concepts are learned in isolation.
--   Build and test one stage at a time.
--   Do not create placeholder files for all of Version 1.
--   Keep account and room persistence in SQLite, but keep active
-    sessions and room membership in memory.
--   Do not store chat history.
--   Start with a simple terminal interface if a full TUI slows down the
-    core work.
--   Keep basic input validation and message framing. These are needed
-    for correctness even in a learning prototype.
--   Commit after each completed stage.
 
 ## 12. Version 0 versus Version 1
 
