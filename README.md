@@ -351,12 +351,12 @@ Restart the server and confirm accounts and rooms remain in SQLite.
 
 ## 10. Acceptance checklist
 
--   [ ] `server` and `client` build from CMake.
--   [ ] Server creates and opens the SQLite database.
--   [ ] Usernames are unique.
--   [ ] Login succeeds for the correct password and fails for an
+-   [x] `server` and `client` build from CMake.
+-   [x] Server creates and opens the SQLite database.
+-   [x] Usernames are unique.
+-   [x] Login succeeds for the correct password and fails for an
     incorrect password.
--   [ ] Accounts persist after server restart.
+-   [x] Accounts persist after server restart.
 -   [ ] Rooms persist after server restart.
 -   [ ] A user can create, list, join, and leave rooms.
 -   [ ] Text is broadcast only within the correct room.
