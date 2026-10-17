@@ -1,48 +1,66 @@
-#include <cstdlib>
-#include <exception>
 #include <iostream>
-#include <string>
+#include <exception>
 
-#include <SQLiteCpp/SQLiteCpp.h>
+#include "database.hpp"
+#include "user_repo.hpp"
+
+using namespace std;
 
 int main()
 {
     try
     {
-        SQLite::Database database("voice_chat.db", SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE);
-        database.exec("CREATE TABLE IF NOT EXISTS users ("
-                      "id INTEGER PRIMARY KEY, "
-                      "username TEXT NOT NULL UNIQUE, "
-                      "password TEXT NOT NULL)");
+        Database database("voicechat.db");
+        database.initialize();
 
-        const std::string username = "demo";
-        const std::string password = "demo-password";
+        UserRepo users(database);
+while(true){
 
-        SQLite::Statement insertUser(
-            database,
-            "INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)");
-        insertUser.bind(1, username);
-        insertUser.bind(2, password);
-        insertUser.executeStep();
 
-        SQLite::Statement findUser(
-            database,
-            "SELECT username, password FROM users WHERE username = ?");
-        findUser.bind(1, username);
+        string username;
+        string password;
 
-        if (!findUser.executeStep() || findUser.getColumn(0).getString() != username || findUser.getColumn(1).getString() != password)
+        cout << "=== Register ===\n";
+        cout << "Username: ";
+        cin >> username;
+
+        cout << "Password: ";
+        cin >> password;
+
+        RegisterUserResult result = users.insert(username, password);
+
+        if (result == RegisterUserResult::Created)
         {
-            std::cerr << "SQLite user query test failed\n";
-            return EXIT_FAILURE;
+            cout << "Registration successful!\n";
+        }
+        else
+        {
+            cout << "Username already exists.\n";
         }
 
-        std::cout << "SQLite user query test passed for username: " << username << '\n';
+        cout << "\n=== Login ===\n";
+
+        cout << "Username: ";
+        cin >> username;
+
+        cout << "Password: ";
+        cin >> password;
+
+        if (users.verifyLogin(username, password))
+        {
+            cout << "Login successful!\n";
+        }
+        else
+        {
+            cout << "Invalid username or password.\n";
+        }
     }
-    catch (const std::exception &error)
+}
+    catch (const exception &e)
     {
-        std::cerr << "SQLite error: " << error.what() << '\n';
-        return EXIT_FAILURE;
+        cerr << "Error: " << e.what() << '\n';
+        return 1;
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
