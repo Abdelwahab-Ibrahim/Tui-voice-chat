@@ -3,64 +3,38 @@
 
 #include "database.hpp"
 #include "user_repo.hpp"
+#include "room.hpp"
+#include "utils.hpp"
+#include "server.hpp"
+#include <unordered_map>
+
+// includes-
+// #include <sys/types.h>
+// #include <unistd.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <string>
 
 using namespace std;
 
 int main()
 {
-    try
+
+   
+    // =======================
+
+    unordered_map<int, Room> Rooms;
+
+    Server server(8080);
+
+    if (!server.start())
     {
-        Database database("voicechat.db");
-        database.initialize();
-
-        UserRepo users(database);
-while(true){
-
-
-        string username;
-        string password;
-
-        cout << "=== Register ===\n";
-        cout << "Username: ";
-        cin >> username;
-
-        cout << "Password: ";
-        cin >> password;
-
-        RegisterUserResult result = users.insert(username, password);
-
-        if (result == RegisterUserResult::Created)
-        {
-            cout << "Registration successful!\n";
-        }
-        else
-        {
-            cout << "Username already exists.\n";
-        }
-
-        cout << "\n=== Login ===\n";
-
-        cout << "Username: ";
-        cin >> username;
-
-        cout << "Password: ";
-        cin >> password;
-
-        if (users.verifyLogin(username, password))
-        {
-            cout << "Login successful!\n";
-        }
-        else
-        {
-            cout << "Invalid username or password.\n";
-        }
-    }
-}
-    catch (const exception &e)
-    {
-        cerr << "Error: " << e.what() << '\n';
         return 1;
     }
+
+    server.run();
 
     return 0;
 }
