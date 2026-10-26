@@ -15,7 +15,8 @@ struct User
 enum class RegisterUserResult
 {
     Created,
-    UsernameTaken
+    UsernameTaken,
+    Error
 };
 
 class UserRepo

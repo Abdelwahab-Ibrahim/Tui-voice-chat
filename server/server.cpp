@@ -1,6 +1,6 @@
 
 #include "server.hpp"
-#include<dispature.hpp>
+#include<handle_request.hpp>
 
 #include <iostream>
 #include <cstdio>
@@ -109,7 +109,7 @@ void Server::handleClient(int client_fd)
     }
 
     std::string request(buffer, bytes_received);
-    std::string response = dispatchRequest(request);
+    std::string response = handle_request(request);
 
     size_t total_sent = 0;
 

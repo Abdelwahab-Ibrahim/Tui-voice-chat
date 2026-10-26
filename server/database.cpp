@@ -6,7 +6,7 @@
 Database::Database(const std::string &filename)
 {
     int result = sqlite3_open(filename.c_str(), &db);
-
+    Database::initialize();
     if (result != SQLITE_OK)
     {
         std::cerr << "failed to create database" << std::endl;
@@ -36,7 +36,7 @@ void Database::initialize()
 
     if (result != SQLITE_OK)
     {
-        std::cerr << "ERROR: "<< err << std::endl;
+        std::cerr << "ERROR: " << err << std::endl;
     }
     else
     {

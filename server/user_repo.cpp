@@ -1,6 +1,8 @@
 #include "user_repo.hpp"
 #include <string>
 #include <stdexcept>
+#include <exception>
+#include<iostream>
 
 UserRepo::UserRepo(Database &database)
     : database(database)
@@ -11,6 +13,11 @@ RegisterUserResult UserRepo::insert(
     const std::string &username,
     const std::string &password)
 {
+    if (username.empty() || password.empty())
+    {
+        return RegisterUserResult::Error;
+    }
+
     sqlite3_stmt *stmt = nullptr;
 
     const char *sql =
@@ -43,8 +50,7 @@ RegisterUserResult UserRepo::insert(
             std::string error = sqlite3_errmsg(database.db);
 
             sqlite3_finalize(stmt);
-            throw std::runtime_error(
-                "Failed to insert user: " + error);
+            return RegisterUserResult::Error;
         }
     }
 
@@ -55,6 +61,11 @@ RegisterUserResult UserRepo::insert(
 std::optional<User> UserRepo::findByUsername(
     const std::string &username)
 {
+    if (username.empty())
+    {
+        return std::nullopt;
+    }
+
     sqlite3_stmt *stmt = nullptr;
 
     const char *sql =
@@ -117,6 +128,11 @@ bool UserRepo::verifyLogin(
     const std::string &username,
     const std::string &password)
 {
+    if (username.empty() || password.empty())
+    {
+        return false;
+    }
+
     std::optional<User> user = findByUsername(username);
 
     if (!user.has_value())

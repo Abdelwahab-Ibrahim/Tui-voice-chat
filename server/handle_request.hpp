@@ -4,6 +4,6 @@
 #include <string>
 
 // Inside Server class:
-std::string dispatchRequest(const std::string &request);
+std::string handle_request(const std::string &request);
 
 #endif
